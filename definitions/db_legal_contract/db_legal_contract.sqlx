@@ -1,0 +1,116 @@
+config {
+    type: "incremental",
+    protected: true,
+    description: "db_legal_contract dimension table",
+    uniqueKey: ["Contr_Id", "Valid_From_Dt", "Fin_Rep_Valid_From_Mth"],
+    bigquery: {
+        partitionBy: "TIMESTAMP_TRUNC(UPDATE_LOAD_TS, MONTH)"
+    },
+    tags: ["Semantic", "Dimension", "db_legal_contract"]
+}
+
+pre_operations {
+  delete from ${self()} where true;
+
+  -- SELECT
+  --   ERROR(
+  --     """
+  --     Error: Cannot write NULL to Ident_Type_Cd field
+      
+  --     """
+  --   );
+
+}
+
+SELECT CAST(stg_s_asspd_hist_d_leg_contr_90.Contr_id AS STRING) AS Contr_Id,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Valid_From_Dt AS DATE) AS Valid_From_Dt,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Valid_Until_Dt AS DATE) AS Valid_Until_Dt,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Current_Ind AS STRING) AS Current_Ind,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Ident_Type_Cd AS STRING) AS Ident_Type_Cd,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Ident_1_Num AS STRING) AS Ident_1_Num,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Ident_2_Num AS STRING) AS Ident_2_Num,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Ident_3_Num AS STRING) AS Ident_3_Num,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Ident_4_Num AS STRING) AS Ident_4_Num,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Contr_Num AS STRING) AS Contr_Num,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Contr_Position_Num AS STRING) AS Contr_Position_Num,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Subtype_Cd AS STRING) AS Subtype_Cd,
+       CAST(NULL AS STRING) AS Region_Cd,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Conv_Status_Cd AS STRING) AS Conv_Status_Cd,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Conv_Status_Dt AS DATE) AS Conv_Status_Dt,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Last_Subsd_Dt AS DATE) AS Last_Subsd_Dt,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Sign_Dt AS DATE) AS Sign_Dt,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Receive_Dt AS DATE) AS Receive_Dt,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Orig_Start_Dt AS DATE) AS Orig_Start_Dt,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Plan_Expir_Dt AS DATE) AS Plan_Expir_Dt,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Commit_Period_Start_Dt AS DATE) AS Commit_Period_Start_Dt,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Next_Subsd_Dt AS DATE) AS Next_Subsd_Dt,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Tariff_Offer_Id AS STRING) AS Tariff_Offer_Id,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Owner_Cust_Id AS STRING) AS Owner_Cust_Id,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Activating_Sale_Org_Id AS STRING) AS Activating_Sale_Org_Id,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Attending_Sale_Org_Id AS STRING) AS Attending_Sale_Org_Id,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Assigned_Skel_Contr_Id AS STRING) AS Assigned_Skel_Contr_Id,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Init_Contr_Per_Qty AS INT64) AS Init_Contr_Per_Qty,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Init_Contr_Per_Uom_Cd AS STRING) AS Init_Contr_Per_Uom_Cd,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Init_Term_Time_Point_Cd AS STRING) AS Init_Term_Time_Point_Cd,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Init_Term_Notice_Per_Qty AS INT64) AS Init_Term_Notice_Per_Qty,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Init_Term_Notice_Per_UOM_Cd AS STRING) AS Init_Term_Notice_Per_Uom_Cd,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Subsq_Contr_Per_Qty AS INT64) AS Subsq_Contr_Per_Qty,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Subsq_Contr_Per_Uom_Cd AS STRING) AS Subsq_Contr_Per_Uom_Cd,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Subsq_Term_Time_Point_Cd AS STRING) AS Subsq_Term_Time_Point_Cd,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Subsq_Term_Notice_Per_Qty AS INT64) AS Subsq_Term_Notice_Per_Qty,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Subsq_Term_Notice_Per_UOM_Cd AS STRING) AS Subsq_Term_Notice_Per_Uom_Cd,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.LOB_Cd AS STRING) AS Lob_Cd,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Fin_Rep_Valid_From_Mth AS INT64) AS Fin_Rep_Valid_From_Mth,
+       CAST(stg_s_asspd_hist_d_leg_contr_90.Fin_Rep_Valid_Until_Mth AS INT64) AS Fin_Rep_Valid_Until_Mth,
+       CAST(format_timestamp('%Y%m%d%H%M%S', CURRENT_TIMESTAMP()) AS INT64) AS Insert_Load_Id,
+       CAST(format_timestamp('%Y%m%d%H%M%S', CURRENT_TIMESTAMP()) AS INT64) AS Update_Load_Id,
+       COALESCE(UPDATE_LOAD_TS, CAST('1900-01-01 00:00:00' AS TIMESTAMP)) AS UPDATE_LOAD_TS
+FROM   ${ref("stg_s_asspd_hist_d_leg_contr_90")} stg_s_asspd_hist_d_leg_contr_90
+UNION ALL
+SELECT CAST(stg_s_um_asspd_hist_d_leg_contr_90.Contr_Id AS STRING) AS Contr_Id,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Valid_From_Dt AS DATE) AS Valid_From_Dt,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Valid_Until_Dt AS DATE) AS Valid_Until_Dt,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Current_Ind AS STRING) AS Current_Ind,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Ident_Type_Cd AS STRING) AS Ident_Type_Cd,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Ident_1_Num AS STRING) AS Ident_1_Num,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Ident_2_Num AS STRING) AS Ident_2_Num,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Ident_3_Num AS STRING) AS Ident_3_Num,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Ident_4_Num AS STRING) AS Ident_4_Num,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Contr_Num AS STRING) AS Contr_Num,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Contr_Position_Num AS STRING) AS Contr_Position_Num,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Subtype_Cd AS STRING) AS Subtype_Cd,
+       CAST(NULL AS STRING) AS Region_Cd,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Conv_Status_Cd AS STRING) AS Conv_Status_Cd,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Conv_Status_Dt AS DATE) AS Conv_Status_Dt,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Last_Subsd_Dt AS DATE) AS Last_Subsd_Dt,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Sign_Dt AS DATE) AS Sign_Dt,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Receive_Dt AS DATE) AS Receive_Dt,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Orig_Start_Dt AS DATE) AS Orig_Start_Dt,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Plan_Expir_Dt AS DATE) AS Plan_Expir_Dt,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Commit_Period_Start_Dt AS DATE) AS Commit_Period_Start_Dt,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Next_Subsd_Dt AS DATE) AS Next_Subsd_Dt,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Tariff_Offer_Id AS STRING) AS Tariff_Offer_Id,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Owner_Cust_Id AS STRING) AS Owner_Cust_Id,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Activating_Sale_Org_Id AS STRING) AS Activating_Sale_Org_Id,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Attending_Sale_Org_Id AS STRING) AS Attending_Sale_Org_Id,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Assigned_Skel_Contr_Id AS STRING) AS Assigned_Skel_Contr_Id,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Init_Contr_Per_Qty AS INT64) AS Init_Contr_Per_Qty,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Init_Contr_Per_Uom_Cd AS STRING) AS Init_Contr_Per_Uom_Cd,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Init_Term_Time_Point_Cd AS STRING) AS Init_Term_Time_Point_Cd,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Init_Term_Notice_Per_Qty AS INT64) AS Init_Term_Notice_Per_Qty,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Init_Term_Notice_Per_UOM_Cd AS STRING) AS Init_Term_Notice_Per_Uom_Cd,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Subsq_Contr_Per_Qty AS INT64) AS Subsq_Contr_Per_Qty,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Subsq_Contr_Per_Uom_Cd AS STRING) AS Subsq_Contr_Per_Uom_Cd,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Subsq_Term_Time_Point_Cd AS STRING) AS Subsq_Term_Time_Point_Cd,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Subsq_Term_Notice_Per_Qty AS INT64) AS Subsq_Term_Notice_Per_Qty,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Subsq_Term_Notice_Per_UOM_Cd AS STRING) AS Subsq_Term_Notice_Per_Uom_Cd,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.LOB_Cd AS STRING) AS Lob_Cd,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Fin_Rep_Valid_From_Mth AS INT64) AS Fin_Rep_Valid_From_Mth,
+       CAST(stg_s_um_asspd_hist_d_leg_contr_90.Fin_Rep_Valid_Until_Mth AS INT64) AS Fin_Rep_Valid_Until_Mth,
+       CAST(format_timestamp('%Y%m%d%H%M%S', CURRENT_TIMESTAMP()) AS INT64) AS Insert_Load_Id,
+       CAST(format_timestamp('%Y%m%d%H%M%S', CURRENT_TIMESTAMP()) AS INT64) AS Update_Load_Id,
+       COALESCE(UPDATE_LOAD_TS, CAST('1900-01-01 00:00:00' AS TIMESTAMP)) AS UPDATE_LOAD_TS
+FROM   ${ref("stg_s_um_asspd_hist_d_leg_contr_90")} stg_s_um_asspd_hist_d_leg_contr_90
+
+
+

@@ -1,0 +1,57 @@
+config {
+    type: "incremental",
+    protected: true,
+    description: "db_work_order dimension table",
+    uniqueKey: ["Work_Ord_Id", "Valid_From_Dt", "Fin_Rep_Valid_From_Mth"],
+    bigquery: {
+        partitionBy: "TIMESTAMP_TRUNC(UPDATE_LOAD_TS, MONTH)"
+    },
+    tags: ["Semantic", "Dimension", "db_work_order"]
+}
+
+pre_operations {
+  delete from ${self()} where true;
+-- SELECT  ERROR("Quota exceeded: too many concurrent queries");
+  
+}
+
+SELECT CAST(stg_s_work_order_hist_db_wrk_ord_90.Work_Ord_Id AS STRING) AS Work_Ord_Id,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Valid_From_Dt AS DATE) AS Valid_From_Dt,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Valid_Until_Dt AS DATE) AS Valid_Until_Dt,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Current_Ind AS STRING) AS Current_Ind,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Ident_Type_Cd AS STRING) AS Ident_Type_Cd,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Ident_1_Num AS STRING) AS Ident_1_Num,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Ident_2_Num AS STRING) AS Ident_2_Num,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Ident_3_Num AS STRING) AS Ident_3_Num,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Type_Cd AS STRING) AS Type_Cd,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Conv_Status_Cd AS STRING) AS Conv_Status_Cd,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Conv_Status_Dt AS DATE) AS Conv_Status_Dt,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Type_Rsn_Cd AS STRING) AS Type_Rsn_Cd,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Cust_Id AS STRING) AS Cust_Id,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Servng_Sale_Org_Id AS STRING) AS Servng_Sale_Org_Id,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Rel_Work_Ord_Id AS STRING) AS Rel_Work_Ord_Id,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Req_Start_Dt AS DATE) AS Req_Start_Dt,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Creation_Dt AS DATE) AS Creation_Dt,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Succ_Pre_Check_Closure_Dt AS DATE) AS Succ_Pre_Check_Closure_Dt,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Plan_Final_Dt AS DATE) AS Plan_Final_Dt,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Final_Dt AS STRING) AS Final_Dt,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Final_Cd AS STRING) AS Final_Cd,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Rejected_Rsn_Cd AS STRING) AS Rejected_Rsn_Cd,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Cancel_Reversal_Cd AS STRING) AS Cancel_Reversal_Cd,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Add_Ord_Ref_Num AS STRING) AS Add_Ord_Ref_Num,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.External_Ord_Ref_Num AS STRING) AS External_Ord_Ref_Num,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.LOB_Cd AS STRING) AS LOB_Cd,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Fin_Rep_Valid_From_Mth AS INT64) AS Fin_Rep_Valid_From_Mth,
+       CAST(stg_s_work_order_hist_db_wrk_ord_90.Fin_Rep_Valid_Until_Mth AS INT64) AS Fin_Rep_Valid_Until_Mth,
+       CAST(format_timestamp('%Y%m%d%H%M%S', CURRENT_TIMESTAMP()) AS INT64) AS Insert_Load_Id,
+       CAST(format_timestamp('%Y%m%d%H%M%S', CURRENT_TIMESTAMP()) AS INT64) AS Update_Load_Id,
+       COALESCE(UPDATE_LOAD_TS, CAST('1900-01-01 00:00:00' AS TIMESTAMP)) AS UPDATE_LOAD_TS
+FROM   ${ref("stg_s_work_order_hist_db_wrk_ord_90")} stg_s_work_order_hist_db_wrk_ord_90
+
+post_operations {
+  update ${self()}
+  set UPDATE_LOAD_TS = CURRENT_TIMESTAMP()
+  where Work_Ord_Id is not null;
+}
+
+

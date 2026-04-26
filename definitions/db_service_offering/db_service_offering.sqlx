@@ -1,0 +1,70 @@
+config {
+    type: "incremental",
+    protected: true,
+    description: "db_service_offering dimension table",
+    uniqueKey: ["Serv_Offer_Id", "Valid_From_Dt", "Fin_Rep_Valid_From_Mth"],
+    bigquery: {
+        partitionBy: "TIMESTAMP_TRUNC(UPDATE_LOAD_TS, MONTH)"
+    },
+    tags: ["Semantic", "Dimension", "db_service_offering"]
+}
+
+pre_operations {
+  delete from ${self()} where true
+}
+
+SELECT CAST(stg_s_productcatalog_db_serv_offer_90.Serv_Offer_Id AS STRING) AS Serv_Offer_Id,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Valid_From_Dt AS DATE) AS Valid_From_Dt,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Valid_Until_Dt AS DATE) AS Valid_Until_Dt,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Current_Ind AS STRING) AS Current_Ind,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Ident_Type_Cd AS STRING) AS Ident_Type_Cd,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Ident_1_Num AS STRING) AS Ident_1_Num,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Ident_2_Num AS STRING) AS Ident_2_Num,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Ident_3_Num AS STRING) AS Ident_3_Num,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Serv_Offer_Cluster AS STRING) AS Serv_Offer_Cluster,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Serv_Offer_Name AS STRING) AS Serv_Offer_Name,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Serv_Offer_Desc AS STRING) AS Serv_Offer_Desc,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Eff_Dt AS DATE) AS Eff_Dt,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Expir_Dt AS DATE) AS Expir_Dt,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Conv_Status_Cd AS STRING) AS Conv_Status_Cd,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Conv_Status_Dt AS STRING) AS Conv_Status_Dt,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Main_Offer_Ind AS STRING) AS Main_Offer_Ind,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Add_Offer_Ind AS STRING) AS Add_Offer_Ind,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Brandpartner_Id AS STRING) AS Brandpartner_Id,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Serv_Offer_Type_Cd AS STRING) AS Serv_Offer_Type_Cd,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Serv_Offer_Categ_Cd AS STRING) AS Serv_Offer_Categ_Cd,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Serv_Offer_Sub_Categ_Cd AS STRING) AS Serv_Offer_Sub_Categ_Cd,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Serv_Bundle_Categ_Cd AS STRING) AS Serv_Bundle_Categ_Cd,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Serv_Offer_Lvl_Cd AS STRING) AS Serv_Offer_Lvl_Cd,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Sales_Expir_Dt AS DATE) AS Sales_Expir_Dt,
+       CAST(NULL AS NUMERIC) AS Init_Chg_Amt,
+       CAST(NULL AS NUMERIC) AS Start_Chg_Amt,
+       CAST(NULL AS NUMERIC) AS Recur_Chg_Amt,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Def_Chg_Amt AS NUMERIC) AS Def_Chg_Amt,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Free_Of_Charge_Ind AS STRING) AS Free_Of_Charge_Ind,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Init_Period_D AS INT64) AS Init_Period_D,
+       CAST(NULL AS INT64) AS Start_Period_D,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Recur_Period_D AS INT64) AS Recur_Period_D,
+       CAST(NULL AS INT64) AS Validity_Dur,
+       CAST(NULL AS STRING) AS Validity_Dur_Cd,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Vat_Rate_Key_Cd AS STRING) AS Vat_Rate_Key_Cd,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Bw_Qty AS NUMERIC) AS Bw_Qty,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Upload_Bw_Qty AS NUMERIC) AS Upload_Bw_Qty,
+       CAST(stg_s_productcatalog_db_serv_offer_90.VTV_Cd AS STRING) AS VTV_Cd,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Bundle_Ind AS STRING) AS Bundle_Ind,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Offer_Tech_Grp_Cd AS STRING) AS Offer_Tech_Grp_Cd,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Prod_Class_Desc AS STRING) AS Prod_Class_Desc,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Prevention_Ind AS STRING) AS Prevention_Ind,
+       CAST(stg_s_productcatalog_db_serv_offer_90.RGU_Wght_Cnt AS STRING) AS RGU_Wght_Cnt,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Inet_Wght_Cnt AS STRING) AS Inet_Wght_Cnt,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Prem_TV_Wght_Cnt AS STRING) AS Prem_TV_Wght_Cnt,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Phone_Wght_Cnt AS STRING) AS Phone_Wght_Cnt,
+       CAST(stg_s_productcatalog_db_serv_offer_90.BCS_Wght_Cnt AS STRING) AS BCS_Wght_Cnt,
+       CAST(stg_s_productcatalog_db_serv_offer_90.LOB_Cd AS STRING) AS LOB_Cd,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Fin_Rep_Valid_From_Mth AS INT64) AS Fin_Rep_Valid_From_Mth,
+       CAST(stg_s_productcatalog_db_serv_offer_90.Fin_Rep_Valid_Until_Mth AS INT64) AS Fin_Rep_Valid_Until_Mth,
+       CAST(format_timestamp('%Y%m%d%H%M%S', CURRENT_TIMESTAMP()) AS INT64) AS Insert_Load_Id,
+       CAST(format_timestamp('%Y%m%d%H%M%S', CURRENT_TIMESTAMP()) AS INT64) AS Update_Load_Id,
+       COALESCE(UPDATE_LOAD_TS, CAST('1900-01-01 00:00:00' AS TIMESTAMP)) AS UPDATE_LOAD_TS
+FROM   ${ref("stg_s_productcatalog_db_serv_offer_90")} stg_s_productcatalog_db_serv_offer_90
+

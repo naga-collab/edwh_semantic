@@ -1,0 +1,99 @@
+config {
+    type: "incremental",
+    protected: true,
+    description: "db_subscription dimension table",
+    uniqueKey: ["Subscr_Id", "Valid_From_Dt", "Fin_Rep_Valid_From_Mth"],
+    bigquery: {
+        partitionBy: "TIMESTAMP_TRUNC(UPDATE_LOAD_TS, MONTH)"
+    },
+    tags: ["Semantic", "Dimension", "db_subscription"]
+}
+
+
+pre_operations {
+
+  delete from ${self()} where true;
+
+
+  -- SELECT
+  --   ERROR(
+  --     """
+  --     Error: Value of type STRING cannot be assigned to DATE
+      
+  --     """
+  --   );
+
+}
+
+
+SELECT CAST(stg_s_sub_hist_um_d_sub_90.Subscr_Id AS STRING) AS Subscr_Id,
+       CAST(stg_s_sub_hist_um_d_sub_90.Valid_From_Dt AS DATE) AS Valid_From_Dt,
+       CAST(stg_s_sub_hist_um_d_sub_90.Valid_Until_Dt AS DATE) AS Valid_Until_Dt,
+       CAST(stg_s_sub_hist_um_d_sub_90.Current_Ind AS STRING) AS Current_Ind,
+       CAST(stg_s_sub_hist_um_d_sub_90.Ident_Type_Cd AS STRING) AS Ident_Type_Cd,
+       CAST(stg_s_sub_hist_um_d_sub_90.Ident_1_Num AS STRING) AS Ident_1_Num,
+       CAST(stg_s_sub_hist_um_d_sub_90.Ident_2_Num AS STRING) AS Ident_2_Num,
+       CAST(stg_s_sub_hist_um_d_sub_90.Ident_3_Num AS STRING) AS Ident_3_Num,
+       CAST(stg_s_sub_hist_um_d_sub_90.Eff_Dt AS DATE) AS Eff_Dt,
+       CAST(stg_s_sub_hist_um_d_sub_90.Conv_Status_Cd AS STRING) AS Conv_Status_Cd,
+       CAST(stg_s_sub_hist_um_d_sub_90.Conv_Status_Dt AS STRING) AS Conv_Status_Dt,
+       CAST(stg_s_sub_hist_um_d_sub_90.Initial_Amt AS NUMERIC) AS Initial_Amt,
+       CAST(stg_s_sub_hist_um_d_sub_90.Bill_Acct_Id AS STRING) AS Bill_Acct_Id,
+       CAST(stg_s_sub_hist_um_d_sub_90.Legal_Contr_Id AS STRING) AS Legal_Contr_Id,
+       CAST(stg_s_sub_hist_um_d_sub_90.Activating_Sale_Org_Id AS STRING) AS Activating_Sale_Org_Id,
+       CAST(stg_s_sub_hist_um_d_sub_90.Main_Offer_Id AS INT64) AS Main_Offer_Id,
+       CAST(stg_s_sub_hist_um_d_sub_90.Bus_Seg_Cd AS STRING) AS Bus_Seg_Cd,
+       CAST(stg_s_sub_hist_um_d_sub_90.Bundle_Categ_Cd AS STRING) AS Bundle_Categ_Cd,
+       CAST(stg_s_sub_hist_um_d_sub_90.Market_Cd AS STRING) AS Market_Cd,
+       CAST(stg_s_sub_hist_um_d_sub_90.Gsm_Num AS STRING) AS Gsm_Num,
+       CAST(stg_s_sub_hist_um_d_sub_90.Pre_Charge_Eligy_Ind AS STRING) AS Pre_Charge_Eligy_Ind,
+       CAST(stg_s_sub_hist_um_d_sub_90.Initial_Actv_Dt AS STRING) AS Initial_Actv_Dt,
+       CAST(stg_s_sub_hist_um_d_sub_90.Direct_Debit_Ind AS STRING) AS Direct_Debit_Ind,
+       CAST(stg_s_sub_hist_um_d_sub_90.Wght_Qty AS NUMERIC) AS Wght_Qty,
+       CAST(stg_s_sub_hist_um_d_sub_90.EL_Cmpy_Name AS STRING) AS El_Cmpy_Name,
+       CAST(stg_s_sub_hist_um_d_sub_90.Underage_Birth_Dt AS STRING) AS Underage_Birth_Dt,
+       CAST(stg_s_sub_hist_um_d_sub_90.Rel_Main_Card_Id AS INT64) AS Rel_Main_Card_Id,
+       CAST(stg_s_sub_hist_um_d_sub_90.LOB_Cd AS STRING) AS Lob_Cd,
+       CAST(stg_s_sub_hist_um_d_sub_90.Fin_Rep_Valid_From_Mth AS INT64) AS Fin_Rep_Valid_From_Mth,
+       CAST(stg_s_sub_hist_um_d_sub_90.Fin_Rep_Valid_Until_Mth AS INT64) AS Fin_Rep_Valid_Until_Mth,
+       CAST(format_timestamp('%Y%m%d%H%M%S', CURRENT_TIMESTAMP()) AS INT64) AS Insert_Load_Id,
+       CAST(format_timestamp('%Y%m%d%H%M%S', CURRENT_TIMESTAMP()) AS INT64) AS Update_Load_Id,
+       COALESCE(UPDATE_LOAD_TS, CAST('1900-01-01 00:00:00' AS TIMESTAMP)) AS UPDATE_LOAD_TS
+FROM   ${ref("stg_s_sub_hist_um_d_sub_90")} stg_s_sub_hist_um_d_sub_90
+UNION ALL
+SELECT CAST(stg_s_sub_hist_kd_d_sub_90.Subscr_Id AS STRING) AS Subscr_Id,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Valid_From_Dt AS DATE) AS Valid_From_Dt,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Valid_Until_Dt AS DATE) AS Valid_Until_Dt,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Current_Ind AS STRING) AS Current_Ind,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Ident_Type_Cd AS STRING) AS Ident_Type_Cd,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Ident_1_Num AS STRING) AS Ident_1_Num,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Ident_2_Num AS STRING) AS Ident_2_Num,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Ident_3_Num AS STRING) AS Ident_3_Num,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Eff_Dt AS DATE) AS Eff_Dt,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Conv_Status_Cd AS STRING) AS Conv_Status_Cd,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Conv_Status_Dt AS STRING) AS Conv_Status_Dt,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Initial_Amt AS NUMERIC) AS Initial_Amt,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Bill_Acct_Id AS STRING) AS Bill_Acct_Id,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Legal_Contr_Id AS STRING) AS Legal_Contr_Id,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Activating_Sale_Org_Id AS STRING) AS Activating_Sale_Org_Id,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Main_Offer_Id AS INT64) AS Main_Offer_Id,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Bus_Seg_Cd AS STRING) AS Bus_Seg_Cd,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Bundle_Categ_Cd AS STRING) AS Bundle_Categ_Cd,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Market_Cd AS STRING) AS Market_Cd,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Gsm_Num AS STRING) AS Gsm_Num,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Pre_Charge_Eligy_Ind AS STRING) AS Pre_Charge_Eligy_Ind,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Initial_Actv_Dt AS STRING) AS Initial_Actv_Dt,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Direct_Debit_Ind AS STRING) AS Direct_Debit_Ind,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Wght_Qty AS NUMERIC) AS Wght_Qty,
+       CAST(stg_s_sub_hist_kd_d_sub_90.EL_Cmpy_Name AS STRING) AS El_Cmpy_Name,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Underage_Birth_Dt AS STRING) AS Underage_Birth_Dt,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Rel_Main_Card_Id AS INT64) AS Rel_Main_Card_Id,
+       CAST(stg_s_sub_hist_kd_d_sub_90.LOB_Cd AS STRING) AS Lob_Cd,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Fin_Rep_Valid_From_Mth AS INT64) AS Fin_Rep_Valid_From_Mth,
+       CAST(stg_s_sub_hist_kd_d_sub_90.Fin_Rep_Valid_Until_Mth AS INT64) AS Fin_Rep_Valid_Until_Mth,
+       CAST(format_timestamp('%Y%m%d%H%M%S', CURRENT_TIMESTAMP()) AS INT64) AS Insert_Load_Id,
+       CAST(format_timestamp('%Y%m%d%H%M%S', CURRENT_TIMESTAMP()) AS INT64) AS Update_Load_Id,
+       COALESCE(UPDATE_LOAD_TS, CAST('1900-01-01 00:00:00' AS TIMESTAMP)) AS UPDATE_LOAD_TS
+FROM   ${ref("stg_s_sub_hist_kd_d_sub_90")} stg_s_sub_hist_kd_d_sub_90
+
+

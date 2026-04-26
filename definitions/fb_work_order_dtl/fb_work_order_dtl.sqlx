@@ -1,0 +1,56 @@
+config {
+    type: "incremental",
+    description: "fb_work_order_dtl fact table enriched with dimension references for subscription, work order, service offering, and promotion.",
+    uniqueKey: ["Work_Ord_Dtl_Id"],
+    tags: ["Fact", "fb_work_order_dtl", "Enriched"]
+}
+
+SELECT
+  CAST(src.Subscr_Id AS INT64) AS Subscr_Id,
+  CAST(src.Legal_Contr_Id AS INT64) AS Legal_Contr_Id,
+  CAST(src.Cust_id AS INT64) AS Cust_id,
+  CAST(src.Work_Ord_Dtl_Id AS INT64) AS Work_Ord_Dtl_Id,
+  CAST(src.Work_Ord_Id AS INT64) AS Work_Ord_Id,
+  CAST(src.Servng_Sale_Org_Id AS INT64) AS Servng_Sale_Org_Id,
+  CAST(src.Promtn_Id AS INT64) AS Promtn_Id,
+  CAST(src.Action_Type_Cd AS STRING) AS Action_Type_Cd,
+  CAST(src.Conv_Status_Cd AS STRING) AS Conv_Status_Cd,
+  CAST(src.Conv_Status_Dt AS DATE) AS Conv_Status_Dt,
+  CAST(src.Serv_Offer_Id AS INT64) AS Serv_Offer_Id,
+  CAST(src.Serv_Offer_Cnt AS INT64) AS Serv_Offer_Cnt,
+  CAST(src.Price AS NUMERIC) AS Price,
+  CAST(src.Insert_load_id AS INT64) AS Insert_load_id,
+
+  sub.Ident_1_Num AS Subscr_Ident_1_Num,
+  sub.Ident_2_Num AS Subscr_Ident_2_Num,
+  sub.Ident_3_Num AS Subscr_Ident_3_Num,
+  sub.Eff_Dt AS Subscr_Eff_Dt,
+  sub.Conv_Status_Cd AS Subscr_Conv_Status_Cd,
+
+  wo.Type_Cd AS Work_Ord_Type_Cd,
+  wo.Conv_Status_Cd AS Work_Ord_Conv_Status_Cd,
+  wo.Req_Start_Dt AS Work_Ord_Req_Start_Dt,
+  wo.Creation_Dt AS Work_Ord_Creation_Dt,
+
+  serv.Serv_Offer_Name AS Serv_Offer_Name,
+  serv.Serv_Offer_Desc AS Serv_Offer_Desc,
+  serv.Serv_Offer_Type_Cd AS Serv_Offer_Type_Cd,
+  serv.Serv_Offer_Categ_Cd AS Serv_Offer_Categ_Cd,
+
+  prom.PROMTN_NAME AS Promtn_Name,
+  prom.PROMTN_DESC AS Promtn_Desc,
+  prom.IDENT_TYPE_CD AS Promtn_Ident_Type_Cd,
+  prom.IDENT_1_NUM AS Promtn_Ident_1_Num
+
+FROM ${ref("stg_work_ord_fact_table_src_90")} src
+LEFT JOIN ${ref("db_subscription")} sub
+  ON CAST(src.Subscr_Id AS STRING) = sub.Subscr_Id
+  AND sub.Current_Ind = 'Y'
+LEFT JOIN ${ref("db_work_order")} wo
+  ON CAST(src.Work_Ord_Id AS STRING) = wo.Work_Ord_Id
+  AND wo.Current_Ind = 'Y'
+LEFT JOIN ${ref("db_service_offering")} serv
+  ON CAST(src.Serv_Offer_Id AS STRING) = serv.Serv_Offer_Id
+  AND serv.Current_Ind = 'Y'
+LEFT JOIN ${ref("db_promotion")} prom
+  ON CAST(src.Promtn_Id AS STRING) = prom.PROMTN_ID

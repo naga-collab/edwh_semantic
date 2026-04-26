@@ -1,0 +1,4 @@
+defaultProject: projectaipoc-493617
+defaultDataset: edwh_semantic
+defaultAssertionDataset: dataform_assertions
+dataformCoreVersion: 3.0.42

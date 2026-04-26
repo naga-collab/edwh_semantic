@@ -1,0 +1,65 @@
+config {
+    type: "incremental",
+    protected: true,
+    description: "db_customer dimension table",
+    uniqueKey: ["Cust_Id", "Valid_From_Dt", "Fin_Rep_Valid_From_Mth"],
+    bigquery: {
+        partitionBy: "TIMESTAMP_TRUNC(UPDATE_LOAD_TS, MONTH)"
+    },
+    tags: ["Semantic", "Dimension", "db_customer"]
+}
+
+pre_operations {
+  delete from ${self()} where true;
+-- SELECT 
+-- ERROR("UPDATE/MERGE must match at most one source row for each target row");
+-- ERROR("Cannot write NULL to Ident_1_Num field");
+
+}
+
+SELECT CAST(stg_s_cust_hist_d_cust_90.Cust_Id AS STRING) AS Cust_Id,
+       CAST(stg_s_cust_hist_d_cust_90.Valid_From_Dt AS DATE) AS Valid_From_Dt,
+       CAST(stg_s_cust_hist_d_cust_90.Valid_Until_Dt AS DATE) AS Valid_Until_Dt,
+       CAST(stg_s_cust_hist_d_cust_90.Current_Ind AS STRING) AS Current_Ind,
+       CAST(stg_s_cust_hist_d_cust_90.Ident_Type_Cd AS STRING) AS Ident_Type_Cd,
+       CAST(stg_s_cust_hist_d_cust_90.Ident_1_Num AS STRING) AS Ident_1_Num,
+       CAST(stg_s_cust_hist_d_cust_90.Ident_2_Num AS STRING) AS Ident_2_Num,
+       CAST(stg_s_cust_hist_d_cust_90.Ident_3_Num AS STRING) AS Ident_3_Num,
+       CAST(stg_s_cust_hist_d_cust_90.Subtype_Cd AS STRING) AS Subtype_Cd,
+       CAST(stg_s_cust_hist_d_cust_90.Conv_Status_Cd AS STRING) AS Conv_Status_Cd,
+       CAST(stg_s_cust_hist_d_cust_90.Conv_Status_Dt AS STRING) AS Conv_Status_Dt,
+       CAST(stg_s_cust_hist_d_cust_90.Bus_Seg_Cd AS STRING) AS Bus_Seg_Cd,
+       CAST(stg_s_cust_hist_d_cust_90.Cust_Class_Cd AS STRING) AS Cust_Class_Cd,
+       CAST(stg_s_cust_hist_d_cust_90.Distribution_Seg_Cd AS STRING) AS Distribution_Seg_Cd,
+       CAST(stg_s_cust_hist_d_cust_90.Assigned_Sale_Org_Id AS STRING) AS Assigned_Sale_Org_Id,
+       CAST(stg_s_cust_hist_d_cust_90.Perform_Sale_Org_Id AS STRING) AS Perform_Sale_Org_Id,
+       CAST(stg_s_cust_hist_d_cust_90.Brandpartner_Id AS STRING) AS Brandpartner_Id,
+       CAST(stg_s_cust_hist_d_cust_90.Geo_HH_Mem_Id AS STRING) AS Geo_HH_Mem_Id,
+       CAST(stg_s_cust_hist_d_cust_90.Linked_HH_Mem_Id AS STRING) AS Linked_HH_Mem_Id,
+       CAST(stg_s_cust_hist_d_cust_90.Legal_Bldg_Addr_Id AS STRING) AS Legal_Bldg_Addr_Id,
+       CAST(stg_s_cust_hist_d_cust_90.Root_Cust_Id AS STRING) AS Root_Cust_Id,
+       CAST(stg_s_cust_hist_d_cust_90.Indv_Salutn_Type_Cd AS STRING) AS Indv_Salutn_Type_Cd,
+       CAST(stg_s_cust_hist_d_cust_90.Indv_Prefix_Txt AS STRING) AS Indv_Prefix_Txt,
+       CAST(stg_s_cust_hist_d_cust_90.Indv_First_Name AS STRING) AS Indv_First_Name,
+       CAST(stg_s_cust_hist_d_cust_90.Indv_Middle_Name AS STRING) AS Indv_Middle_Name,
+       CAST(stg_s_cust_hist_d_cust_90.Indv_Last_Name AS STRING) AS Indv_Last_Name,
+       CAST(stg_s_cust_hist_d_cust_90.Indv_Birth_Dt AS STRING) AS Indv_Birth_Dt,
+       CAST(stg_s_cust_hist_d_cust_90.Org_Name AS STRING) AS Org_Name,
+       CAST(stg_s_cust_hist_d_cust_90.Org_Legal_Class_Cd AS STRING) AS Org_Legal_Class_Cd,
+       CAST(stg_s_cust_hist_d_cust_90.Org_Reg_Num AS STRING) AS Org_Reg_Num,
+       CAST(stg_s_cust_hist_d_cust_90.Org_Reg_City_Name AS STRING) AS Org_Reg_City_Name,
+       CAST(stg_s_cust_hist_d_cust_90.Org_Reg_Pref_Txt AS STRING) AS Org_Reg_Pref_Txt,
+       CAST(stg_s_cust_hist_d_cust_90.Contact_Tel_Num AS STRING) AS Contact_Tel_Num,
+       CAST(stg_s_cust_hist_d_cust_90.Contact_Email_Addr_Txt AS STRING) AS Contact_Email_Addr_Txt,
+       CAST(stg_s_cust_hist_d_cust_90.EECC_Class_Cd AS STRING) AS EECC_Class_Cd,
+       CAST(stg_s_cust_hist_d_cust_90.MDU_Ind AS STRING) AS MDU_Ind,
+       CAST(stg_s_cust_hist_d_cust_90.Lob_Cd AS STRING) AS Lob_Cd,
+       CAST(stg_s_cust_hist_d_cust_90.Fin_Rep_Valid_From_Mth AS INT64) AS Fin_Rep_Valid_From_Mth,
+       CAST(stg_s_cust_hist_d_cust_90.Fin_Rep_Valid_Until_Mth AS INT64) AS Fin_Rep_Valid_Until_Mth,
+       CAST(format_timestamp('%Y%m%d%H%M%S', CURRENT_TIMESTAMP()) AS INT64) AS Insert_Load_Id,
+       CAST(format_timestamp('%Y%m%d%H%M%S', CURRENT_TIMESTAMP()) AS INT64) AS Update_Load_Id,
+       COALESCE(UPDATE_LOAD_TS, CAST('1900-01-01 00:00:00' AS TIMESTAMP)) AS UPDATE_LOAD_TS
+FROM   ${ref("stg_s_cust_hist_d_cust_90")} stg_s_cust_hist_d_cust_90
+
+
+

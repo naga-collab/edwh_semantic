@@ -1,0 +1,20 @@
+config {
+    type: "view",
+    description: "db_promotion dimension table",
+    tags: ["Semantic", "Dimension", "db_promotion"]
+}
+
+SELECT
+PM.PROMTN_ID AS PROMTN_ID,
+PM.IDENT_TYPE_CD AS IDENT_TYPE_CD,
+PM.IDENT_1_NUM AS IDENT_1_NUM,
+PM.IDENT_2_NUM AS IDENT_2_NUM,
+PM.IDENT_3_NUM AS IDENT_3_NUM,
+PM.PROMTN_NAME AS PROMTN_NAME,
+PM.PROMTN_DESC AS PROMTN_DESC,
+       GREATEST(COALESCE(PM.UPDATE_LOAD_TS, CAST('1900-01-01 00:00:00' AS TIMESTAMP)),
+                COALESCE(PM.UPDATE_LOAD_TS, CAST('1900-01-01 00:00:00' AS TIMESTAMP))) AS UPDATE_LOAD_TS
+FROM 
+${ref("stg_vr_promo_db_promo_00")} as PM
+
+
