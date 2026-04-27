@@ -10,8 +10,8 @@ config {
 }
 
 pre_operations {
-  -- delete from ${self()} where true
- SELECT ERROR("Cannot write NULL to Conv_Status_Dt field");
+  delete from ${self()} where true;
+--  SELECT ERROR("Cannot write NULL to Conv_Status_Dt field");
 }
 
 SELECT CAST(stg_s_order_item_hist_db_wod_90.Work_Ord_Dtl_Id AS STRING) AS Work_Ord_Dtl_Id,
