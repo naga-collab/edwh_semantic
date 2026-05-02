@@ -1,0 +1,15 @@
+config {
+    type: "table",
+    description: "db_test dimension table",
+    tags: ["Semantic", "Dimension", "db_test"]
+}
+
+
+SELECT CAST(stg_s_customer_00.customersk AS STRING) AS Cust_ID,
+       CAST(stg_s_customer_00.validfromdate AS DATE) AS Valid_From_Dt,
+       CAST(stg_s_customer_00.validuntildate AS DATE) AS Valid_Until_Dt,
+       CAST(stg_s_customer_00.keytypeid AS STRING) AS Ident_Type_Cd,
+       CAST(stg_s_customer_00.customerid AS STRING) AS Ident_1_Num,
+       CAST(stg_s_customer_00.insertloadid AS STRING) AS Insert_Load_Id,
+       CAST(stg_s_customer_00.updateloadid AS STRING) AS Update_Load_Id
+ FROM   ${ref("stg_s_customer_00")} stg_s_customer_00

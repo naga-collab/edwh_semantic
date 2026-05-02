@@ -1,0 +1,15 @@
+config {
+    type: "table",
+    description: "db_test dimension table",
+    tags: ["Semantic", "Dimension", "db_test"]
+}
+
+
+SELECT CAST(customer.customersk AS STRING) AS customersk,
+       CAST(customer.validfromdate AS DATE) AS validfromdate,
+       CAST(customer.validuntildate AS DATE) AS validuntildate,
+       CAST(customer.keytypeid AS STRING) AS keytypeid,
+       CAST(customer.customerid AS STRING) AS customerid,
+       CAST(customer.insertloadid AS STRING) AS insertloadid,
+       CAST(customer.updateloadid AS STRING) AS updateloadid
+ FROM   ${ref("customer")} customer
