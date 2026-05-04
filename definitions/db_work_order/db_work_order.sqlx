@@ -27,7 +27,7 @@ SELECT CAST(stg_s_work_order_hist_db_wrk_ord_90.Work_Ord_Id AS STRING) AS Work_O
        CAST(stg_s_work_order_hist_db_wrk_ord_90.Conv_Status_Cd AS STRING) AS Conv_Status_Cd,
        CAST(stg_s_work_order_hist_db_wrk_ord_90.Conv_Status_Dt AS DATE) AS Conv_Status_Dt,
        CAST(stg_s_work_order_hist_db_wrk_ord_90.Type_Rsn_Cd AS STRING) AS Type_Rsn_Cd,
-       CAST(stg_s_work_order_hist_db_wrk_ord_90.Cust_Id AS STRING) AS Cust_Id,
+       CAST(db_customer.Cust_Id AS STRING) AS Cust_Id,
        CAST(stg_s_work_order_hist_db_wrk_ord_90.Servng_Sale_Org_Id AS STRING) AS Servng_Sale_Org_Id,
        CAST(stg_s_work_order_hist_db_wrk_ord_90.Rel_Work_Ord_Id AS STRING) AS Rel_Work_Ord_Id,
        CAST(stg_s_work_order_hist_db_wrk_ord_90.Req_Start_Dt AS DATE) AS Req_Start_Dt,
@@ -45,8 +45,9 @@ SELECT CAST(stg_s_work_order_hist_db_wrk_ord_90.Work_Ord_Id AS STRING) AS Work_O
        CAST(stg_s_work_order_hist_db_wrk_ord_90.Fin_Rep_Valid_Until_Mth AS INT64) AS Fin_Rep_Valid_Until_Mth,
        CAST(format_timestamp('%Y%m%d%H%M%S', CURRENT_TIMESTAMP()) AS INT64) AS Insert_Load_Id,
        CAST(format_timestamp('%Y%m%d%H%M%S', CURRENT_TIMESTAMP()) AS INT64) AS Update_Load_Id,
-       COALESCE(UPDATE_LOAD_TS, CAST('1900-01-01 00:00:00' AS TIMESTAMP)) AS UPDATE_LOAD_TS
+       COALESCE(stg_s_work_order_hist_db_wrk_ord_90.UPDATE_LOAD_TS, CAST('1900-01-01 00:00:00' AS TIMESTAMP)) AS UPDATE_LOAD_TS
 FROM   ${ref("stg_s_work_order_hist_db_wrk_ord_90")} stg_s_work_order_hist_db_wrk_ord_90
+JOIN ${ref("db_customer")} db_customer on stg_s_work_order_hist_db_wrk_ord_90.Cust_Id = db_customer.Cust_Id
 
 post_operations {
   update ${self()}
