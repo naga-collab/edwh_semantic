@@ -10,8 +10,8 @@ config {
 }
 
 pre_operations {
-  delete from ${self()} where true;
-  SELECT  ERROR("Query error: Column name UPDATE_LOAD_TS is ambiguous ]");
+  --delete from ${self()} where true;
+  SELECT  ERROR("Invalid value: Cannot write NULL to REQUIRED field CONV_STATUS_CD");
   
 }
 
