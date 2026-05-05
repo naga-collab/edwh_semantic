@@ -11,7 +11,7 @@ config {
 
 pre_operations {
   delete from ${self()} where true;
--- SELECT  ERROR("Quota exceeded: too many concurrent queries");
+  SELECT  ERROR("Query error: Column name UPDATE_LOAD_TS is ambiguous ]");
   
 }
 
@@ -45,7 +45,7 @@ SELECT CAST(stg_s_work_order_hist_db_wrk_ord_90.Work_Ord_Id AS STRING) AS Work_O
        CAST(stg_s_work_order_hist_db_wrk_ord_90.Fin_Rep_Valid_Until_Mth AS INT64) AS Fin_Rep_Valid_Until_Mth,
        CAST(format_timestamp('%Y%m%d%H%M%S', CURRENT_TIMESTAMP()) AS INT64) AS Insert_Load_Id,
        CAST(format_timestamp('%Y%m%d%H%M%S', CURRENT_TIMESTAMP()) AS INT64) AS Update_Load_Id,
-       COALESCE(UPDATE_LOAD_TS, CAST('1900-01-01 00:00:00' AS TIMESTAMP)) AS UPDATE_LOAD_TS
+       COALESCE(stg_s_work_order_hist_db_wrk_ord_90.UPDATE_LOAD_TS, CAST('1900-01-01 00:00:00' AS TIMESTAMP)) AS UPDATE_LOAD_TS
 FROM   ${ref("stg_s_work_order_hist_db_wrk_ord_90")} stg_s_work_order_hist_db_wrk_ord_90
 JOIN ${ref("db_customer")} db_customer on stg_s_work_order_hist_db_wrk_ord_90.Cust_Id = db_customer.Cust_Id
 
