@@ -11,9 +11,7 @@ config {
 
 pre_operations {
   delete from ${self()} where true;
--- SELECT 
--- ERROR("UPDATE/MERGE must match at most one source row for each target row");
--- ERROR("Cannot write NULL to Ident_1_Num field");
+
 
 }
 
